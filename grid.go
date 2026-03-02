@@ -136,7 +136,7 @@ func (self *Grid) Draw(buf *Buffer) {
 	width := float64(self.Dx()) + 1
 	height := float64(self.Dy()) + 1
 
-	for _, item := range self.Items {
+	for vI, item := range self.Items {
 		entry, _ := item.Entry.(Drawable)
 
 		x := int(width*item.XRatio) + self.Min.X
@@ -149,6 +149,15 @@ func (self *Grid) Draw(buf *Buffer) {
 		}
 		if y+h > self.Dy() {
 			h--
+		}
+
+		// Special case: multiple items all wanting to be full-size.  Let them
+		// pick their own size.
+		if (len(self.Items) > 1) && (item.ratio == 1.0) {
+			vRect := entry.GetRect()
+			h = vRect.Max.Y - vRect.Min.Y
+			vI = vI % (int(height) / h)
+			y = (vI * h) + self.Min.Y
 		}
 
 		entry.SetRect(x, y, x+w, y+h)
