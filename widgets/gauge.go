@@ -49,7 +49,9 @@ func (self *Gauge) Draw(buf *Buffer) {
 		for i, char := range label {
 			style := self.LabelStyle
 			if labelXCoordinate+i+1 <= self.Inner.Min.X+barWidth {
-				style = NewStyle(self.BarColor, ColorClear, ModifierReverse)
+				// Reverse causes screen glitching at exactly 50% for some reason.
+				//style = NewStyle(self.BarColor, ColorClear, ModifierReverse)
+				style = NewStyle(ColorBlack, self.BarColor, ModifierClear)
 			}
 			buf.SetCell(NewCell(char, style), image.Pt(labelXCoordinate+i, labelYCoordinate))
 		}
