@@ -154,9 +154,8 @@ func (self *Grid) Draw(buf *Buffer) {
 		// Special case: multiple items all wanting to be full-size.  Let them
 		// pick their own size.
 		if (len(self.Items) > 1) && (item.ratio == 1.0) {
-			vRect := entry.GetRect()
-			h = vRect.Max.Y - vRect.Min.Y
-			vI = vI % (int(height) / h)
+			h = entry.GetRect().Dy()
+			vI = vI % ((int(height) - 1) / h)
 			y = (vI * h) + self.Min.Y
 		}
 
