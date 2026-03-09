@@ -66,7 +66,7 @@ func (self *SparklineGroup) Draw(buf *Buffer) {
 		for j := 0; j < len(sl.Data) && j < self.Inner.Dx(); j++ {
 			data := sl.Data[j]
 			height := int((data / maxVal) * float64(barHeight))
-			if height > sl.MaxHeight {
+			if sl.MaxHeight > 0 && height > sl.MaxHeight {
 				height = sl.MaxHeight
 			}
 			sparkChar := BARS[len(BARS)-1]
